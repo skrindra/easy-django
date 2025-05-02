@@ -24,3 +24,4 @@ class BaseModel(models.Model):
         """Restore a soft-deleted object."""
         self.is_active = True
         self.save()
+
