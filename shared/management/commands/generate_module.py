@@ -1,21 +1,7 @@
 import os
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
-"""
-RUN IN TERMINAL: 'python manage.py generate_module <app_name> <Entity>'
-
-Example: 'python manage.py generate_module users User' will create the below in the project directory
-with the boilerplate inherited class names starting with "User"
-
-users/
-├── models.py
-├── repositories/user_repository.py
-├── services/user_service.py
-├── serializers/user_serializer.py
-├── views/user_view.py
-└── urls.py
-
-"""
 
 TEMPLATE = {
     'models.py': '''from shared.models.base_model import BaseModel
@@ -79,9 +65,52 @@ class {name}Admin(admin.ModelAdmin):
     list_display = ["id", "name", "created_at", "updated_at", "is_active"]
     search_fields = ["name"]
     list_filter = ["is_active", "created_at"]
+''',
+
+    'tests/test_{lower_name}_service.py': '''from django.test import TestCase
+from {app_name}.services.{lower_name}_service import {name}Service
+
+class {name}ServiceTest(TestCase):
+    def setUp(self):
+        self.service = {name}Service()
+
+    def test_create_should_succeed(self):
+        data = {{"name": "Test {name}"}}
+        instance = self.service.create(data)
+        self.assertIsNotNone(instance.id)
+
+    def test_retrieve_should_return_queryset(self):
+        results = self.service.retrieve({{}})
+        self.assertIsNotNone(results)
 '''
 }
 
+"""
+RUN IN TERMINAL: 'python manage.py generate_module <app_name> <Entity>'
+
+Example: 'python manage.py generate_module users User' will create the below in the project directory
+with the boilerplate inherited class names starting with "User"
+
+users/
+├── __init__.py
+├── admin.py                          # Auto-registers the User model with admin
+├── models.py                         # Defines the User model
+├── urls.py                           # Exposes the API route
+├── repositories/
+│   └── user_repository.py            # Encapsulates query logic
+├── serializers/
+│   └── user_serializer.py            # DRF serializer for the model
+├── services/
+│   └── user_service.py               # Business logic layer
+├── views/
+│   └── user_view.py                  # API view using BaseAPIView + decorator
+└── tests/
+    └── test_user_service.py          # Unit test for UserService
+
+Additionally:
+- Registers the app in INSTALLED_APPS if not present
+- Automatically generates admin registration and placeholder test case
+"""
 
 class Command(BaseCommand):
     help = 'Generates a modular app structure for the Django boilerplate'
@@ -98,7 +127,7 @@ class Command(BaseCommand):
         if not os.path.exists(app_name):
             os.makedirs(app_name)
 
-        dirs = ['repositories', 'services', 'serializers', 'views']
+        dirs = ['repositories', 'services', 'serializers', 'views', 'tests']
         for d in dirs:
             os.makedirs(os.path.join(app_name, d), exist_ok=True)
 
@@ -110,4 +139,12 @@ class Command(BaseCommand):
             with open(path, 'w') as f:
                 f.write(content.format(app_name=app_name, name=model_name, lower_name=lower_name))
 
-        self.stdout.write(self.style.SUCCESS(f'Module "{app_name}" with model "{model_name}" scaffolded with admin registration.'))
+        settings_file = os.path.join(settings.BASE_DIR, settings.SETTINGS_MODULE.replace('.', '/') + '.py')
+        with open(settings_file, 'r') as f:
+            settings_content = f.read()
+
+        if app_name not in settings_content:
+            with open(settings_file, 'a') as f:
+                f.write(f"\nINSTALLED_APPS.append('{app_name}')\n")
+
+        self.stdout.write(self.style.SUCCESS(f'Module "{app_name}" with model "{model_name}" scaffolded with admin, test files, and registered in INSTALLED_APPS.'))
