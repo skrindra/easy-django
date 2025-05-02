@@ -2,14 +2,20 @@ import os
 from django.core.management.base import BaseCommand, CommandError
 
 """
-USAGE: Save this script under 'yourproject/shared/management/commands/generate_module.py'
-RUN IN TERMINAL: 'python manage.py generate_module app_name User'
+RUN IN TERMINAL: 'python manage.py generate_module <app_name> <Entity>'
+
+Example: 'python manage.py generate_module users User' will create the below in the project directory
+with the boilerplate inherited class names starting with "User"
+
+users/
+├── models.py
+├── repositories/user_repository.py
+├── services/user_service.py
+├── serializers/user_serializer.py
+├── views/user_view.py
+└── urls.py
 
 """
-
-
-
-Run in terminal:
 
 TEMPLATE = {
     'models.py': '''from shared.models.base_model import BaseModel
