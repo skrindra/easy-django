@@ -51,3 +51,4 @@ class BaseRepository:
     def exists(self, **filters):
         """Check if any object matches the filters."""
         return self.model.objects.filter(**filters).exists()
+
