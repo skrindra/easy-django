@@ -14,4 +14,5 @@ RESPONSE_MESSAGES = {
     "INVALID_PAYLOAD": "Invalid data provided.",
     "SUCCESS": "Request processed successfully.",
     "ERROR": "An error occurred. Please try again.",
+    "UNAUTHORIZED": "You are not authorized to perform this action."
 }
