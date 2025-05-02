@@ -69,6 +69,16 @@ from .views.{lower_name}_view import {name}View
 urlpatterns = [
     path("", {name}View.as_view(), name="{lower_name}_api"),
 ]
+''',
+
+    'admin.py': '''from django.contrib import admin
+from .models import {name}
+
+@admin.register({name})
+class {name}Admin(admin.ModelAdmin):
+    list_display = ["id", "name", "created_at", "updated_at", "is_active"]
+    search_fields = ["name"]
+    list_filter = ["is_active", "created_at"]
 '''
 }
 
@@ -100,6 +110,4 @@ class Command(BaseCommand):
             with open(path, 'w') as f:
                 f.write(content.format(app_name=app_name, name=model_name, lower_name=lower_name))
 
-        self.stdout.write(self.style.SUCCESS(f'Module "{app_name}" with model "{model_name}" created.'))
-
-
+        self.stdout.write(self.style.SUCCESS(f'Module "{app_name}" with model "{model_name}" scaffolded with admin registration.'))
