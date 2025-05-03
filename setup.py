@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 setup(
     name="easy-django",
     version="0.1.0",
-    packages=find_packages(),
+    packages=find_packages(include=["shared", "shared.*"]),
     include_package_data=True,
     install_requires=[
         "Django>=3.2",
@@ -15,6 +15,7 @@ setup(
     author="Sivakumar, Selva",
     author_email="techsiva33@gmail.com",
     url="https://github.com/skrindra/django-boilerplate",
+    license="MIT",
     classifiers=[
         "Framework :: Django",
         "Programming Language :: Python :: 3",
