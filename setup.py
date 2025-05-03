@@ -14,7 +14,7 @@ setup(
     long_description_content_type="text/markdown",
     author="Sivakumar, Selva",
     author_email="techsiva33@gmail.com",
-    url="https://github.com/skrindra/django-boilerplate",
+    url="https://github.com/skrindra/easy-django",
     license="MIT",
     classifiers=[
         "Framework :: Django",
