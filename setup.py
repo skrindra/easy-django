@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name="easy-django",
+    name="go-django",
     version="0.1.0",
     packages=find_packages(include=["shared", "shared.*"]),
     include_package_data=True,
@@ -13,8 +13,8 @@ setup(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     author="Sivakumar, Selva",
-    author_email="techsiva33@gmail.com",
-    url="https://github.com/skrindra/easy-django",
+    author_email="skr.iitg@gmail.com",
+    url="https://github.com/skrindra/go-django",
     license="MIT",
     classifiers=[
         "Framework :: Django",
