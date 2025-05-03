@@ -104,4 +104,4 @@ Use Django's `TestCase` or plug in pytest if preferred.
 ---
 
 ## 👨‍💻 Maintainer
-Created by [Your Name] • Contributions welcome!
+Created by Sivakumar & Selva • Contributions welcome!
