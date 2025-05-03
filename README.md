@@ -1,4 +1,4 @@
-# Django Boilerplate → `easy-django` 📦
+# Django Boilerplate → `go-django` 📦
 
 A modular, scalable, and DRY backend boilerplate built on Django. Designed to provide production-ready patterns (service, repository, serializer, view) and a CLI command to scaffold new modules with zero friction.
 
@@ -17,7 +17,7 @@ A modular, scalable, and DRY backend boilerplate built on Django. Designed to pr
 
 ## 📦 Installation
 ```bash
-pip install easy-django
+pip install go-django
 ```
 
 Or for local development:
